@@ -1,0 +1,17 @@
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Visual Studio Code
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
