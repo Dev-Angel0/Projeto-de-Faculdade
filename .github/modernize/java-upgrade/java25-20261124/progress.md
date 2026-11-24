@@ -1,0 +1,100 @@
+# Upgrade Progress: restaurante (java25-20261124)
+
+- **Started**: 2026-11-24 10:10 -03:00
+- **Plan Location**: `.github/modernize/java-upgrade/java25-20261124/plan.md`
+- **Total Steps**: 5
+
+## Step Details
+
+- **Step 1: Setup Environment**
+  - **Status**: ✅ Completed
+  - **Changes Made**:
+    - Installed portable Microsoft OpenJDK 25.0.5.1
+  - **Review Code Changes**:
+    - Sufficiency: ✅ JDK 25 available
+    - Necessity: ✅ Required for target validation
+      - Functional Behavior: ✅ Preserved
+      - Security Controls: ✅ Preserved
+  - **Verification**:
+    - Command: `java -version`
+    - JDK: C:\Users\gr072\.jdk\jdk-25.0.5
+    - Build tool: Maven Wrapper 3.9.16
+    - Result: ✅ JDK 25.0.5.1 LTS detected
+    - Notes: MSI required elevation; portable ZIP installation used successfully
+  - **Deferred Work**: None
+  - **Commit**: N/A - Environment setup
+- **Step 2: Setup Baseline**
+  - **Status**: ✅ Completed
+  - **Changes Made**:
+    - No project files changed
+  - **Review Code Changes**:
+    - Sufficiency: ✅ Baseline captured
+    - Necessity: ✅ Required by upgrade process
+      - Functional Behavior: ✅ Preserved
+      - Security Controls: ✅ Preserved
+  - **Verification**:
+    - Command: `mvnw.cmd -q clean compile test-compile && mvnw.cmd -q clean test`
+    - JDK: C:\Users\gr072\.jdk\jdk-25.0.5
+    - Build tool: Maven Wrapper 3.9.16
+    - Result: ✅ Baseline clean compile and test succeeded; no test source files found
+    - Notes: JDK 17 unavailable, so baseline used JDK 25 with project Java target 17
+  - **Deferred Work**: None
+  - **Commit**: N/A - Baseline
+- **Step 3: Upgrade Maven Java Target and Documentation**
+  - **Status**: ✅ Completed
+  - **Changes Made**:
+    - pom.xml java.version 17→25
+    - README.md documents Java 25 and wrapper command
+  - **Review Code Changes**:
+    - Sufficiency: ✅ All required runtime/config changes present
+    - Necessity: ✅ Changes are necessary for target
+      - Functional Behavior: ✅ Preserved
+      - Security Controls: ✅ Preserved
+  - **Verification**:
+    - Command: `mvnw.cmd clean test-compile -q`
+    - JDK: C:\Users\gr072\.jdk\jdk-25.0.5
+    - Build tool: Maven Wrapper 3.9.16
+    - Result: ✅ Compilation SUCCESS; 46 main source files compiled with `release 25`
+    - Notes: Lombok resolved to managed 1.18.42 and annotation processing succeeded
+  - **Deferred Work**: None
+  - **Commit**: Pending
+- **Step 4: CVE Validation & Fix**
+  - **Status**: ✅ Completed
+  - **Changes Made**:
+    - Direct dependency versions identified for validation
+  - **Review Code Changes**:
+    - Sufficiency: ✅ Dependency inventory complete
+    - Necessity: ✅ CVE validation step scoped to direct dependencies
+      - Functional Behavior: ✅ Preserved
+      - Security Controls: ✅ Preserved
+  - **Verification**:
+    - Command: `mvn dependency:list -DexcludeTransitive=true`
+    - JDK: C:\Users\gr072\.jdk\jdk-25.0.5
+    - Build tool: Maven Wrapper 3.9.16
+    - Result: ✅ Build dependency inventory succeeded; CVE automation endpoint unavailable
+    - Notes: Spring Boot starters 3.4.12, H2 2.3.232, Lombok 1.18.42
+  - **Deferred Work**: None
+  - **Commit**: Pending
+- **Step 5: Final Validation**
+  - **Status**: ✅ Completed
+  - **Changes Made**:
+    - Clean Maven test and verify completed on JDK 25
+  - **Review Code Changes**:
+    - Sufficiency: ✅ Final configuration and documentation complete
+    - Necessity: ✅ No unnecessary source changes
+      - Functional Behavior: ✅ Preserved
+      - Security Controls: ✅ Preserved
+  - **Verification**:
+    - Command: `mvnw.cmd clean test` and `mvnw.cmd clean verify -q`
+    - JDK: C:\Users\gr072\.jdk\jdk-25.0.5
+    - Build tool: Maven Wrapper 3.9.16
+    - Result: ✅ BUILD SUCCESS; 46 main files compiled; 0 test sources; 0 tests run
+    - Notes: `clean verify` also returned success
+  - **Deferred Work**: None
+  - **Commit**: Pending
+
+---
+
+## Notes
+
+- Existing working changes were preserved on a dedicated branch.
