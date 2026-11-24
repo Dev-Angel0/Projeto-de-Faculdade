@@ -57,7 +57,7 @@
     - Result: ✅ Compilation SUCCESS; 46 main source files compiled with `release 25`
     - Notes: Lombok resolved to managed 1.18.42 and annotation processing succeeded
   - **Deferred Work**: None
-  - **Commit**: Pending
+  - **Commit**: f042b662018b85f1354221f55ce954060acdc3d2 - Step 3: Upgrade to Java 25 - Compile: SUCCESS, Tests: 0/0 passed
 - **Step 4: CVE Validation & Fix**
   - **Status**: ✅ Completed
   - **Changes Made**:
@@ -74,7 +74,7 @@
     - Result: ✅ Build dependency inventory succeeded; CVE automation endpoint unavailable
     - Notes: Spring Boot starters 3.4.12, H2 2.3.232, Lombok 1.18.42
   - **Deferred Work**: None
-  - **Commit**: Pending
+  - **Commit**: f042b662018b85f1354221f55ce954060acdc3d2 - Step 4: CVE inventory completed
 - **Step 5: Final Validation**
   - **Status**: ✅ Completed
   - **Changes Made**:
@@ -91,7 +91,7 @@
     - Result: ✅ BUILD SUCCESS; 46 main files compiled; 0 test sources; 0 tests run
     - Notes: `clean verify` also returned success
   - **Deferred Work**: None
-  - **Commit**: Pending
+  - **Commit**: f042b662018b85f1354221f55ce954060acdc3d2 - Step 5: Final validation completed
 
 ---
 
