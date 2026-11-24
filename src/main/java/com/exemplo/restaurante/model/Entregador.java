@@ -10,10 +10,14 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "entregadores")
 @PrimaryKeyJoinColumn(name = "funcionario_id")
+@Getter
+@Setter
 public class Entregador extends Funcionario {
 
     @NotBlank
@@ -28,27 +32,4 @@ public class Entregador extends Funcionario {
     @OneToMany(mappedBy = "entregador", fetch = FetchType.LAZY)
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public String getVeiculo() {
-        return veiculo;
-    }
-
-    public void setVeiculo(String veiculo) {
-        this.veiculo = veiculo;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
 }

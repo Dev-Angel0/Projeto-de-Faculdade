@@ -20,12 +20,15 @@ import com.exemplo.restaurante.model.Produto;
 import com.exemplo.restaurante.repository.ClienteRepository;
 import com.exemplo.restaurante.repository.EnderecoRepository;
 import com.exemplo.restaurante.repository.EntregadorRepository;
+import com.exemplo.restaurante.repository.ItemPedidoRepository;
 import com.exemplo.restaurante.repository.PedidoRepository;
 import com.exemplo.restaurante.repository.ProdutoRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
@@ -33,20 +36,7 @@ public class PedidoService {
     private final EnderecoRepository enderecoRepository;
     private final EntregadorRepository entregadorRepository;
     private final ProdutoRepository produtoRepository;
-
-    public PedidoService(
-            PedidoRepository pedidoRepository,
-            ClienteRepository clienteRepository,
-            EnderecoRepository enderecoRepository,
-            EntregadorRepository entregadorRepository,
-            ProdutoRepository produtoRepository
-    ) {
-        this.pedidoRepository = pedidoRepository;
-        this.clienteRepository = clienteRepository;
-        this.enderecoRepository = enderecoRepository;
-        this.entregadorRepository = entregadorRepository;
-        this.produtoRepository = produtoRepository;
-    }
+    private final ItemPedidoRepository itemPedidoRepository;
 
     @Transactional(readOnly = true)
     public List<PedidoResponseDTO> listarTodos() {
@@ -73,7 +63,21 @@ public class PedidoService {
     public PedidoResponseDTO atualizar(Long id, PedidoRequestDTO request) {
         Pedido pedido = buscarPedido(id);
         preencherPedido(pedido, request);
+        if (request.status() != null) {
+            pedido.setStatus(request.status());
+        }
         return toResponse(pedidoRepository.save(pedido));
+    }
+
+    @Transactional
+    public void recalcularValorTotal(Long pedidoId) {
+        Pedido pedido = buscarPedido(pedidoId);
+        BigDecimal valorTotal = itemPedidoRepository.findByPedido_Id(pedidoId).stream()
+                .map(item -> item.getPrecoUnitario()
+                        .multiply(BigDecimal.valueOf(item.getQuantidade())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        pedido.setValorTotal(valorTotal);
+        pedidoRepository.save(pedido);
     }
 
     @Transactional
